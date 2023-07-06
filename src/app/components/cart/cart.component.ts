@@ -1,4 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { lastValueFrom } from 'rxjs';
 import { CartService } from 'src/app/services/cart.service';
@@ -18,10 +19,20 @@ export class CartComponent implements OnInit {
   cart!: { [key: number]: number }
   prdIds!: number[]
   totalAmount!: number
-  checkoutFrm = {
-    fullname: '',
-    address: '',
-    creditCard: '',
+  checkoutFrm = new FormGroup({
+    fullname: new FormControl('', [Validators.required, Validators.minLength(3)]),
+    address: new FormControl('', [Validators.required, Validators.minLength(6)]),
+    creditCard: new FormControl('', [Validators.required, Validators.minLength(16), Validators.pattern(/^[0-9]+$/)]),
+  })
+
+  get fullname() {
+    return this.checkoutFrm.get('fullname')
+  }
+  get address() {
+    return this.checkoutFrm.get('address')
+  }
+  get creditCard() {
+    return this.checkoutFrm.get('creditCard')
   }
 
   async ngOnInit(): Promise<void> {
@@ -48,21 +59,17 @@ export class CartComponent implements OnInit {
   onQtyChange(prdId: number, qty: number) {
     this._cart.set(prdId, qty)
     this.loadCart()
+    if (qty === 0)
+      alert('Removed item from cart!')
   }
 
   submit() {
-    if (this.checkoutFrm.fullname.length < 3) {
-      alert('Full name must have at least 3 characters')
+    if (this.checkoutFrm.invalid) {
+      this.fullname?.markAsDirty()
+      this.address?.markAsDirty()
+      this.creditCard?.markAsDirty()
       return
     }
-    if (this.checkoutFrm.address.length < 6) {
-      alert('Address must have at least 6 characters')
-      return
-    }
-    if (this.checkoutFrm.creditCard.length < 16) {
-      alert('Credit card number must have at least 16 characters')
-      return
-    }
-    this._router.navigate(['/confirmation'], { queryParams: { fullname: this.checkoutFrm.fullname, totalAmount: this.totalAmount } })
+    this._router.navigate(['/confirmation'], { queryParams: { fullname: this.checkoutFrm.get('fullname')?.value, totalAmount: this.totalAmount } })
   }
 }
