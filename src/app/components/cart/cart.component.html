@@ -7,8 +7,8 @@
                     <div>
                         <h5>{{prdMap[prdId].name}}</h5>
                         <span class="d-block">${{prdMap[prdId].price}}</span>
-                        <input class="form-control mt-1" style="width: 5rem;" type="number" [value]="cart[prdId]"
-                            (change)="onQtyChange(prdId, $event)">
+                        <input class="form-control mt-1" style="width: 5rem;" type="number" [(ngModel)]="cart[prdId]"
+                            (ngModelChange)="onQtyChange(prdId, $event)">
                     </div>
                 </div>
             </ng-container>

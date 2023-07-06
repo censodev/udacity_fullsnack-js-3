@@ -45,8 +45,7 @@ export class CartComponent implements OnInit {
     }).reduce((acc, cur) => acc + cur, 0)
   }
 
-  onQtyChange(prdId: number, e: Event) {
-    const qty: number = +(e.target as HTMLInputElement).value
+  onQtyChange(prdId: number, qty: number) {
     this._cart.set(prdId, qty)
     this.loadCart()
   }
