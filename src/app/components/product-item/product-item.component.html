@@ -1,1 +1,17 @@
-<p>product-item works!</p>
+<div class="card" style="width: 18rem; cursor: pointer;">
+    <img [src]="product.url" class="card-img-top" alt="..." [routerLink]="['/product', product.id]">
+    <div class="card-body">
+        <div class="d-flex gap-3">
+            <div class="flex-grow-1">
+                <span class="d-block">{{product.name}}</span>
+                <span class="d-block fw-bold fs-3">${{product.price}}</span>
+            </div>
+            <div>
+                <select class="form-select form-select-sm" #numSelect>
+                    <option *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]" [value]="i">{{i}}</option>
+                </select>
+                <button (click)="addCart(+numSelect.value)" class="btn btn-sm btn-primary mt-2">Add to cart</button>
+            </div>
+        </div>
+    </div>
+</div>
