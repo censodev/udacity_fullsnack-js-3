@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, EventEmitter, Input, Output, inject } from '@angular/core';
 import { CartService } from 'src/app/services/cart.service';
 import { Product } from 'src/app/services/product.service';
 
@@ -9,6 +9,8 @@ import { Product } from 'src/app/services/product.service';
 })
 export class ProductItemComponent {
   @Input() product!: Product
+  @Output() onClick = new EventEmitter()
+
   _cart = inject(CartService)
 
   addCart(qty: number) {

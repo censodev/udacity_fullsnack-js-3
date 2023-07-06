@@ -1,5 +1,5 @@
 <div class="card" style="width: 18rem; cursor: pointer;">
-    <img [src]="product.url" class="card-img-top" alt="..." [routerLink]="['/product', product.id]">
+    <img [src]="product.url" class="card-img-top" alt="..." (click)="onClick.emit()">
     <div class="card-body">
         <div class="d-flex gap-3">
             <div class="flex-grow-1">
